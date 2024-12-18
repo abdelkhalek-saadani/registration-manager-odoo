@@ -1,0 +1,11 @@
+<odoo>
+    <record id="mail.menu_root_discuss" model="ir.ui.menu">
+        <field name="active" eval="False"/>
+    </record>
+
+
+    <!-- <record id="base.menu_management" model="ir.ui.menu">
+        <field name="active" eval="False"/>
+    </record> -->
+
+</odoo>

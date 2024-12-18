@@ -1,0 +1,14 @@
+<odoo>
+    <record id="group_registration_manager_reviewer" model="res.groups">
+        <field name="name">Reviewer</field>
+    </record>
+
+    <record model="ir.rule" id="registration_record_rule">
+        <field name="name">Reviewer sees only registrations assigned to him</field>
+        <field name="model_id" ref="model_registration_manager_registration"/>
+        <field name="domain_force">['|',('reviewer_1_id.id','=',user.id),('reviewer_2_id.id','=',user.id)]</field>
+        <field name="groups" eval="[(4, ref('group_registration_manager_reviewer'))]"/>
+        <field name="perm_unlink" eval="False"/>
+        <field name="perm_create" eval="False"/>
+    </record>
+</odoo>

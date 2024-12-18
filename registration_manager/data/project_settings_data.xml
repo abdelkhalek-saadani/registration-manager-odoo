@@ -1,0 +1,16 @@
+<odoo>
+    <data>
+        
+
+        <record id="project_base_url" model="ir.config_parameter">
+            <field name="key">project.base_url</field>
+            <field name="value">http://localhost:8069</field>
+        </record>
+
+
+        <record id="project_admin_email" model="ir.config_parameter">
+            <field name="key">project.admin_email</field>
+            <field name="value">example_admin@gmail.com</field>
+        </record>
+    </data>
+</odoo>

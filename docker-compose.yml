@@ -1,0 +1,41 @@
+services:
+  db:
+    image: postgres:14
+    container_name: ${POSTGRES_CONTAINER_NAME:-db}
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-odoo}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-odoo}
+      POSTGRES_DB: ${POSTGRES_DB:-postgres}
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - registrations-db-data:/var/lib/postgresql/data/pgdata
+    networks:
+      - registrations-network
+
+  odoo:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ${ODOO_CONTAINER_NAME:-odoo}
+    ports:
+      - "${ODOO_PORT:-8069}:8069"
+    volumes:
+      - registrations-web-data:/var/lib/odoo
+      - ${CUSTOM_ADDONS:-./}:/mnt/extra-addons
+      - ${CONFIG_FILE:-./conf.example}:/etc/odoo
+    depends_on:
+      - db
+    networks:
+      - registrations-network
+
+volumes:
+  registrations-db-data:
+    name: ${DBDATA}
+    external: ${DBDATA_EXTERNAL}
+  registrations-web-data:
+    name: ${ODOO_WEB_DATA}
+    external: ${ODOO_WEB_DATA_EXTERNAL}
+
+networks:
+  registrations-network:
+    name: ${NETWORK_NAME}

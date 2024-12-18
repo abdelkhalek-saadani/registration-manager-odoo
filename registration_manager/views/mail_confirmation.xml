@@ -1,0 +1,7 @@
+<odoo>
+    <template id="mail_confirmation">
+        <center>
+            Mail Confirmed !
+        </center>
+    </template>
+</odoo>

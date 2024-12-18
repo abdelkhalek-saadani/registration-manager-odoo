@@ -1,0 +1,51 @@
+<odoo>
+
+    <record id="registration_manager_topic_tree_view" model="ir.ui.view">
+        <field name="name">view.registration_manager.topic.tree</field>
+        <field name="model">registration_manager.topic</field>
+        <field name="arch" type="xml">
+            <tree string="Topics">
+
+                <field name="name" />
+                <field name="description"/>
+
+            </tree>
+
+
+        </field>
+    </record>
+
+    <record id="registration_manager_topic_form_view" model="ir.ui.view">
+        <field name="name">view.registration_manager.topic.form</field>
+        <field name="model">registration_manager.topic</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="description"/>
+                    </group>
+                </sheet>
+            </form>
+
+        </field>
+    </record>
+
+
+
+    <record id="action_registration_manager_topic" model="ir.actions.act_window">
+        <field name="name">Topics</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">registration_manager.topic</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_registration_manager_topic"
+              name="Topic"
+              sequence="10"
+              groups="base.group_erp_manager"
+              action="action_registration_manager_topic"
+
+    />
+
+</odoo>

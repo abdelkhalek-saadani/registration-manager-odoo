@@ -1,0 +1,55 @@
+<odoo>
+
+    <record id="registration_manager_author_tree_view" model="ir.ui.view">
+        <field name="name">view.registration_manager.author.tree</field>
+        <field name="model">registration_manager.author</field>
+        <field name="arch" type="xml">
+            <tree string="Authors">
+
+                <field name="name"/>
+                <field name="lastname"/>
+                <field name="email"/>
+                <field name="affiliation"/>
+                <field name="registration_id"/>
+
+            </tree>
+
+
+        </field>
+    </record>
+
+    <record id="registration_manager_author_form_view" model="ir.ui.view">
+        <field name="name">view.registration_manager.author.form</field>
+        <field name="model">registration_manager.author</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="lastname"/>
+                        <field name="email"/>
+                        <field name="affiliation"/>
+                        <field name="registration_id"/>
+                    </group>
+                </sheet>
+            </form>
+
+        </field>
+    </record>
+
+
+    <record id="action_registration_manager_author" model="ir.actions.act_window">
+        <field name="name">Authors</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">registration_manager.author</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_registration_manager_author"
+              name="Authors"
+              sequence="10"
+              groups="base.group_erp_manager"
+              action="action_registration_manager_author"
+    />
+
+</odoo>

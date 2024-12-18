@@ -1,0 +1,172 @@
+<odoo>
+
+    <record id="registration_manager_registration_tree_view" model="ir.ui.view">
+        <field name="name">view.registration_manager.registration.tree</field>
+        <field name="model">registration_manager.registration</field>
+        <field name="arch" type="xml">
+            <tree string="registrations"
+                  decoration-danger="state == 'rejected'"
+                  decoration-success="state == 'accepted'"
+                  decoration-info="state == 'new'">
+                <field name="is_mail_confirmed"/>
+                <!--<field name="token" />-->
+                <field name="state"/>
+                <field name="name"/>
+                <field name="lastname"/>
+                <field name="email"/>
+                <field name="institution"/>
+                <field name="title"/>
+                <field name="author_ids" widget="many2many_tags"/>
+                <field name="phone"/>
+                <field name="country"/>
+                <field name="comment"/>
+                <field name="topic_id"/>
+                <field name="type"/>
+                <field name="registration"/>
+                <field name="payement"/>
+
+            </tree>
+
+
+        </field>
+    </record>
+
+    <record id="registration_manager_registration_form_view" model="ir.ui.view">
+        <field name="name">view.registration_manager.registration.form</field>
+        <field name="model">registration_manager.registration</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <!--<button name="action_send_email" string="Send by email" type="object"/>-->
+                    <button string="Accepter" type="object" class="oe_highlight" icon="fa-check"
+                            name="accept"
+                            attrs="{'invisible': [('user_has_admin_group', '=', False)]}"/>
+                    <button string="Refuser" type="object" class="oe_highlight" icon="fa-times"
+                            name="reject"
+                            attrs="{'invisible': [('user_has_admin_group', '=', False)]}"/>
+                </header>
+                <sheet>
+                    <widget name="web_ribbon" title="Accepted" bg_color="bg-info"
+                            attrs="{'invisible': [('state', 'in', ['rejected','new'])]}"/>
+                    <widget name="web_ribbon" title="Rejected" bg_color="bg-danger"
+                            attrs="{'invisible': [('state', 'in', ['accepted','new'])]}"/>
+                    <widget name="web_ribbon" title="New" bg_color="bg-primary"
+                            attrs="{'invisible': [('state', 'in', ['accepted','rejected'])]}"/>
+
+                    <group>
+
+                        <field name="user_has_admin_group" invisible="1"/>
+                        <field name="user_is_reviewer_1" invisible="1"/>
+                        <field name="user_is_reviewer_2" invisible="1"/>
+                        <field name="filename" invisible="1"/>
+                        <field name="state" invisible="1"/>
+
+                        <field name="name" attrs="{'readonly': [('user_has_admin_group', '=', False)]}"/>
+                        <field name="lastname" attrs="{'readonly': [('user_has_admin_group', '=', False)]}"/>
+                        <field name="email" attrs="{'readonly': [('user_has_admin_group', '=', False)]}"/>
+                        <field name="institution" attrs="{'readonly': [('user_has_admin_group', '=', False)]}"/>
+                        <field name="title" attrs="{'readonly': [('user_has_admin_group', '=', False)]}"/>
+                        <field name="author_ids" attrs="{'readonly': [('user_has_admin_group', '=', False)]}"/>
+                        <field name="phone" attrs="{'readonly': [('user_has_admin_group', '=', False)]}"/>
+                        <field name="country" attrs="{'readonly': [('user_has_admin_group', '=', False)]}"/>
+                        <field name="resume" filename="filename"
+                               attrs="{'readonly': [('user_has_admin_group', '=', False)]}"/>
+                        <field name="comment" attrs="{'readonly': [('user_has_admin_group', '=', False)]}"/>
+                        <field name="topic_id" attrs="{'readonly': [('user_has_admin_group', '=', False)]}"/>
+                        <field name="type" attrs="{'readonly': [('user_has_admin_group', '=', False)]}"/>
+                        <field name="registration" attrs="{'readonly': [('user_has_admin_group', '=', False)]}"/>
+                        <field name="payement" attrs="{'readonly': [('user_has_admin_group', '=', False)]}"/>
+                        <field name="reviewer_1_id" domain="[('topic_id','=',topic_id)]"
+                               attrs="{'readonly': [('user_has_admin_group', '=', False)]}"/>
+                        <field name="reviewer_2_id" domain="[('topic_id','=',topic_id)]"
+                               attrs="{'readonly': [('user_has_admin_group', '=', False)]}"/>
+
+
+                    </group>
+
+                    <group attrs="{'invisible': [('user_is_reviewer_1', '=', False),('user_has_admin_group', '=', False)]}">
+                        <field name="notice_1" attrs="{'readonly':[('user_is_reviewer_1', '=', False)]}"/>
+                        <field name="comment_1" attrs="{'readonly':[('user_is_reviewer_1', '=', False)]}"/>
+                    </group>
+
+                    <group attrs="{'invisible': [('user_is_reviewer_2', '=', False),('user_has_admin_group', '=', False)]}">
+                        <field name="notice_2" attrs="{'readonly':[('user_is_reviewer_2', '=', False)]}"/>
+                        <field name="comment_2" attrs="{'readonly':[('user_is_reviewer_2', '=', False)]}"/>
+                    </group>
+
+
+                </sheet>
+            </form>
+
+        </field>
+    </record>
+
+    <record id="registration_manager_registration_search_view" model="ir.ui.view">
+        <field name="name">view.registration_manager.registration.search</field>
+        <field name="model">registration_manager.registration</field>
+        <field name="arch" type="xml">
+            <search string="Search registrations">
+                <field name="name" filter_domain="[('name','ilike',self)]"/>
+
+                <filter string="Mail Confirmee"
+                        name="filter_is_mail_confirmed"
+                        domain="[('is_mail_confirmed', '=', True)]"
+                />
+
+                <filter string="Mail n'est pas Confirmee"
+                        name="filter_is_not_mail_confirmed"
+                        domain="[('is_mail_confirmed', '=', False)]"
+                />
+
+                <separator/>
+
+                <filter string="Acceptee"
+                        name="filter_accepted"
+                        domain="[('state', '=', 'accepted')]"
+                />
+
+                <filter string="Refusee"
+                        name="filter_rejected"
+                        domain="[('state', '=', 'rejected')]"
+                />
+
+                <filter string="En attente"
+                        name="filter_new"
+                        domain="[('state', '=', 'new')]"
+                />
+
+                <group expand="0" string="Group By">
+                    <filter
+                            string="Status"
+                            name="group_by_state"
+                            context="{'group_by': 'state'}"
+                    />
+                </group>
+
+            </search>
+        </field>
+    </record>
+
+    <record id="action_registration_manager_registration" model="ir.actions.act_window">
+        <field name="name">registrations</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">registration_manager.registration</field>
+        <!--<field name="context">{"search_default_filter_is_mail_confirmed":1}</field>-->
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_registration_manager_root"
+              name="Registration Manager"
+              sequence="1"
+              action="action_registration_manager_registration"
+    />
+
+
+    <menuitem id="menu_registration_manager_registration"
+              name="registration"
+              sequence="10"
+              parent="menu_registration_manager_root"
+              action="action_registration_manager_registration"
+    />
+
+</odoo>

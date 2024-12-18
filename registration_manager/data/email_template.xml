@@ -1,0 +1,41 @@
+<?xml version="1.0" ?>
+<odoo>
+
+    <data>
+
+        <record id="registration_email_template" model="mail.template">
+            <field name="name">Registration: Send by email</field>
+            <field name="model_id" ref="registration_manager.model_registration_manager_registration"/>
+            <field name="email_from">{{object.env['ir.config_parameter'].get_param('project.admin_email')}}</field>
+            <field name="email_to">{{object.email}}</field>
+            <field name="subject">Confirmation of Registration - International Conference</field>
+            <field name="body_html" type="html">
+
+                <div style="margin: 0px; padding: 0px;">
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        <span style="color:black">Dear Participant,</span><!--<t t-out="object.name"/> <br />-->
+                        <p style="color:black">Thank you for registering for this International Conference, which will be held from Date. We are pleased to confirm your participation in this event.</p>
+                        <p style="color:black">Please be reminded that the deadline for abstract registrations, as well as the registration deadline and payment of the registration fee, is Date. Kindly ensure that all necessary steps are taken to complete your registration and payment before this date.</p>
+                        <p style="color:black">We appreciate your interest and look forward to welcoming you to the Conference. Should you have any questions or require further information, please do not hesitate to contact us at example@email.com.</p>
+                        <p style="color:black">Thank you once again for your registration.</p>
+                        <span style="color:black">Best regards,<br/>
+                        The Conference Team<br/>
+                        International Conference<br/>
+                        </span>
+
+                        <p style="color:black">Click on the link below to confirm your email
+                        <br/>
+                        <a t-att-href="object.env['ir.config_parameter'].get_param('project.base_url') + '/confirm_mail_registration/' + object.token">
+                            Confirmation Link
+                        </a>
+                        <br/>
+                        </p>
+
+                    </p>
+                </div>
+            </field>
+
+        </record>
+    </data>
+
+</odoo>
