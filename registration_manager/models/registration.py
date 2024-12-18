@@ -73,7 +73,7 @@ class registration(models.Model):
         for record in self:
             record.user_has_admin_group = self.env.user.has_group('base.group_erp_manager')
     def _compute_token(self):
-        secret = "secret_conf"
+        secret = os.getenv('SECRET',"secret_conf")
         current_time = str(time.time())
         combined_string = secret + current_time
         hash_object = hashlib.sha256()
@@ -85,8 +85,6 @@ class registration(models.Model):
         account_sid = os.getenv('TWILIO_ACCOUNT_SID')
         auth_token = os.getenv('TWILIO_AUTH_TOKEN')
         twilio_number = os.getenv('TWILIO_PHONE_NUMBER')
-        _logger.warning("account_sid,|, auth_token,|, twilio_number")
-        _logger.warning(account_sid,"|", auth_token,"|", twilio_number)
         if account_sid and auth_token and twilio_number:
             for rec in self:
                 phone_number = rec.phone
